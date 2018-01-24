@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include <cstring>
 #include <cassert>
 #include <iomanip>
-//#include <boost/cstdint.hpp>
+
 
 namespace cryptlite {
 

@@ -29,10 +29,7 @@ THE SOFTWARE.
 #include <cmath>
 #include <tuple>
 #include <memory>
-//#include <boost/utility.hpp>
-//#include <boost/tuple/tuple.hpp>
-//#include <boost/shared_array.hpp>
-//#include <boost/cstdint.hpp>
+
 
 namespace cryptlite {
 

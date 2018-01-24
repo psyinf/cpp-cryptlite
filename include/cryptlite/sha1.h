@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include <sstream>
 #include <iomanip>
 #include <cryptlite/base64.h>
-//#include <boost/cstdint.hpp>
+
 
 #define SHA1_ROTL(bits, word) \
     (((word) << (bits))|((word) >> (32-(bits))))
