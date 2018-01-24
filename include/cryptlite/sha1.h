@@ -59,10 +59,10 @@ public:
   static const unsigned int HASH_SIZE      = 20;
   static const unsigned int HASH_SIZE_BITS = 160;
 
-  static void hash(const std::string& s, /**/uint8_t digest[HASH_SIZE]) 
+  static void hash(const std::string& s, uint8_t digest[HASH_SIZE]) 
   {
     sha1 ctx;
-    ctx.input(reinterpret_cast<const /**/uint8_t*>(s.c_str()), s.size());
+    ctx.input(reinterpret_cast<const uint8_t*>(s.c_str()), s.size());
     ctx.result(digest);
   }
 
@@ -73,7 +73,7 @@ public:
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     sha1 ctx;
-    ctx.input(reinterpret_cast<const /**/uint8_t*>(s.c_str()), s.size());
+    ctx.input(reinterpret_cast<const uint8_t*>(s.c_str()), s.size());
     ctx.result(digest);
     for (i = 0; i < HASH_SIZE; ++i)
       oss << std::setw(2) << (digest[i] & 0xff);
@@ -84,7 +84,7 @@ public:
   static std::string hash_base64(const std::string& s) {
     uint8_t digest[HASH_SIZE];
     sha1 ctx;
-    ctx.input(reinterpret_cast<const /**/uint8_t*>(s.c_str()), s.size());
+    ctx.input(reinterpret_cast<const uint8_t*>(s.c_str()), s.size());
     ctx.result(digest);
     return base64::encode_from_array(digest, HASH_SIZE);
   }
@@ -120,7 +120,7 @@ public:
     intermediate_hash_[4] = 0xC3D2E1F0;
   }
 
-  void input(const /**/uint8_t* message_array, unsigned int length)
+  void input(const uint8_t* message_array, unsigned int length)
   {
     assert(message_array);
     if (computed_ || corrupted_ || !length)
@@ -136,13 +136,13 @@ public:
 
   void final_bits(const uint8_t message_bits, unsigned int length)
   {
-    /**/uint8_t masks[8] = {
+    uint8_t masks[8] = {
       /* 0 0b00000000 */ 0x00, /* 1 0b10000000 */ 0x80,
       /* 2 0b11000000 */ 0xC0, /* 3 0b11100000 */ 0xE0,
       /* 4 0b11110000 */ 0xF0, /* 5 0b11111000 */ 0xF8,
       /* 6 0b11111100 */ 0xFC, /* 7 0b11111110 */ 0xFE
     };
-    /**/uint8_t markbit[8] = {
+    uint8_t markbit[8] = {
       /* 0 0b10000000 */ 0x80, /* 1 0b01000000 */ 0x40,
       /* 2 0b00100000 */ 0x20, /* 3 0b00010000 */ 0x10,
       /* 4 0b00001000 */ 0x08, /* 5 0b00000100 */ 0x04,
@@ -160,10 +160,10 @@ public:
 
     uint32_t temp;
     SHA1_ADD_LENGTH(this, &temp, length);
-    finalize((/**/uint8_t)((message_bits & masks[length])|(markbit[length])));
+    finalize((uint8_t)((message_bits & masks[length])|(markbit[length])));
   }
 
-  void result(/**/uint8_t digest[HASH_SIZE])
+  void result(uint8_t digest[HASH_SIZE])
   {
     assert(digest);
     if (corrupted_)
@@ -171,40 +171,40 @@ public:
     if (!computed_)
       finalize(0x80);
 
-    digest[ 0] = static_cast</**/uint8_t>(intermediate_hash_[0] >> 24);
-    digest[ 1] = static_cast</**/uint8_t>(intermediate_hash_[0] >> 16);
-    digest[ 2] = static_cast</**/uint8_t>(intermediate_hash_[0] >>  8);
-    digest[ 3] = static_cast</**/uint8_t>(intermediate_hash_[0]      );
-    digest[ 4] = static_cast</**/uint8_t>(intermediate_hash_[1] >> 24);
-    digest[ 5] = static_cast</**/uint8_t>(intermediate_hash_[1] >> 16);
-    digest[ 6] = static_cast</**/uint8_t>(intermediate_hash_[1] >>  8);
-    digest[ 7] = static_cast</**/uint8_t>(intermediate_hash_[1]      );
-    digest[ 8] = static_cast</**/uint8_t>(intermediate_hash_[2] >> 24);
-    digest[ 9] = static_cast</**/uint8_t>(intermediate_hash_[2] >> 16);
-    digest[10] = static_cast</**/uint8_t>(intermediate_hash_[2] >>  8);
-    digest[11] = static_cast</**/uint8_t>(intermediate_hash_[2]      );
-    digest[12] = static_cast</**/uint8_t>(intermediate_hash_[3] >> 24);
-    digest[13] = static_cast</**/uint8_t>(intermediate_hash_[3] >> 16);
-    digest[14] = static_cast</**/uint8_t>(intermediate_hash_[3] >>  8);
-    digest[15] = static_cast</**/uint8_t>(intermediate_hash_[3]      );
-    digest[16] = static_cast</**/uint8_t>(intermediate_hash_[4] >> 24);
-    digest[17] = static_cast</**/uint8_t>(intermediate_hash_[4] >> 16);
-    digest[18] = static_cast</**/uint8_t>(intermediate_hash_[4] >>  8);
-    digest[19] = static_cast</**/uint8_t>(intermediate_hash_[4]      );
+    digest[ 0] = static_cast<uint8_t>(intermediate_hash_[0] >> 24);
+    digest[ 1] = static_cast<uint8_t>(intermediate_hash_[0] >> 16);
+    digest[ 2] = static_cast<uint8_t>(intermediate_hash_[0] >>  8);
+    digest[ 3] = static_cast<uint8_t>(intermediate_hash_[0]      );
+    digest[ 4] = static_cast<uint8_t>(intermediate_hash_[1] >> 24);
+    digest[ 5] = static_cast<uint8_t>(intermediate_hash_[1] >> 16);
+    digest[ 6] = static_cast<uint8_t>(intermediate_hash_[1] >>  8);
+    digest[ 7] = static_cast<uint8_t>(intermediate_hash_[1]      );
+    digest[ 8] = static_cast<uint8_t>(intermediate_hash_[2] >> 24);
+    digest[ 9] = static_cast<uint8_t>(intermediate_hash_[2] >> 16);
+    digest[10] = static_cast<uint8_t>(intermediate_hash_[2] >>  8);
+    digest[11] = static_cast<uint8_t>(intermediate_hash_[2]      );
+    digest[12] = static_cast<uint8_t>(intermediate_hash_[3] >> 24);
+    digest[13] = static_cast<uint8_t>(intermediate_hash_[3] >> 16);
+    digest[14] = static_cast<uint8_t>(intermediate_hash_[3] >>  8);
+    digest[15] = static_cast<uint8_t>(intermediate_hash_[3]      );
+    digest[16] = static_cast<uint8_t>(intermediate_hash_[4] >> 24);
+    digest[17] = static_cast<uint8_t>(intermediate_hash_[4] >> 16);
+    digest[18] = static_cast<uint8_t>(intermediate_hash_[4] >>  8);
+    digest[19] = static_cast<uint8_t>(intermediate_hash_[4]      );
 
   }
 
 private:
 
-  /**/uint32_t intermediate_hash_[HASH_SIZE/4];
-  /**/uint32_t length_low_;
-  /**/uint32_t length_high_;
-  /**/int_least16_t message_block_index_;
-  /**/uint8_t message_block_[BLOCK_SIZE];
+  uint32_t intermediate_hash_[HASH_SIZE/4];
+  uint32_t length_low_;
+  uint32_t length_high_;
+  int_least16_t message_block_index_;
+  uint8_t message_block_[BLOCK_SIZE];
   bool computed_;
   bool corrupted_;
 
-  void pad_message(/**/uint8_t pad_byte)
+  void pad_message(uint8_t pad_byte)
   {
     if (message_block_index_ >= (BLOCK_SIZE - 8)) {
       message_block_[message_block_index_++] = pad_byte;
@@ -218,19 +218,19 @@ private:
     while (message_block_index_ < (BLOCK_SIZE - 8))
       message_block_[message_block_index_++] = 0;
 
-    message_block_[56] = static_cast</**/uint8_t>(length_high_ >> 24);
-    message_block_[57] = static_cast</**/uint8_t>(length_high_ >> 16);
-    message_block_[58] = static_cast</**/uint8_t>(length_high_ >>  8);
-    message_block_[59] = static_cast</**/uint8_t>(length_high_      );
-    message_block_[60] = static_cast</**/uint8_t>(length_low_  >> 24);
-    message_block_[61] = static_cast</**/uint8_t>(length_low_  >> 16);
-    message_block_[62] = static_cast</**/uint8_t>(length_low_  >>  8);
-    message_block_[63] = static_cast</**/uint8_t>(length_low_       );
+    message_block_[56] = static_cast<uint8_t>(length_high_ >> 24);
+    message_block_[57] = static_cast<uint8_t>(length_high_ >> 16);
+    message_block_[58] = static_cast<uint8_t>(length_high_ >>  8);
+    message_block_[59] = static_cast<uint8_t>(length_high_      );
+    message_block_[60] = static_cast<uint8_t>(length_low_  >> 24);
+    message_block_[61] = static_cast<uint8_t>(length_low_  >> 16);
+    message_block_[62] = static_cast<uint8_t>(length_low_  >>  8);
+    message_block_[63] = static_cast<uint8_t>(length_low_       );
 
     process_message_block();
   }
 
-  void finalize(/**/uint8_t pad_byte)
+  void finalize(uint8_t pad_byte)
   {
     int i;
     pad_message(pad_byte);
@@ -243,12 +243,12 @@ private:
 
   void process_message_block()
   {
-    const /**/uint32_t K[4] = {
+    const uint32_t K[4] = {
       0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6
     };
-    /**/uint32_t   temp;
-    /**/uint32_t   W[80];
-    /**/uint32_t   A, B, C, D, E;
+    uint32_t   temp;
+    uint32_t   W[80];
+    uint32_t   A, B, C, D, E;
 
     W[0]  = ((uint32_t)message_block_[0]) << 24;
     W[0] |= ((uint32_t)message_block_[1]) << 16;
