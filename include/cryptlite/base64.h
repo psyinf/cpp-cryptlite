@@ -27,10 +27,11 @@ THE SOFTWARE.
 #include <string>
 #include <sstream>
 #include <cmath>
-#include <boost/utility.hpp>
-#include <boost/tuple/tuple.hpp>
+#include <tuple>
+//#include <boost/utility.hpp>
+//#include <boost/tuple/tuple.hpp>
 #include <boost/shared_array.hpp>
-#include <boost/cstdint.hpp>
+//#include <boost/cstdint.hpp>
 
 namespace cryptlite {
 
@@ -46,6 +47,7 @@ private:  // emphasize the following members are private
 };
 
 typedef signed char     int8_t;
+typedef unsigned char		uint8_t;
 
 class base64 : public noncopyable {
 
@@ -89,7 +91,7 @@ class base64 : public noncopyable {
     return os.str();
   }
 
-  static boost::tuple<boost::shared_array</*boost::*/uint8_t>, std::size_t>
+  static std::tuple<boost::shared_array</*boost::*/uint8_t>, std::size_t>
   decode_to_array(const std::string& s)
   {
     char c1, c2, c3, c4;
@@ -120,7 +122,7 @@ class base64 : public noncopyable {
       do {
         c3 = s[i++] & 0xff;
         if (c3 == 61)
-          return boost::make_tuple(dest, dest_len);
+          return std::make_tuple(dest, dest_len);
         c3 = dectable[c3];
       } while (i < size && c3 == -1);
       if (c3 == -1)
@@ -131,7 +133,7 @@ class base64 : public noncopyable {
       do {
         c4 = s[i++] & 0xff;
         if (c4 == 61)
-          return boost::make_tuple(dest, dest_len);
+          return std::make_tuple(dest, dest_len);
         c4 = dectable[c4];
       } while (i < size && c4 == -1);
       if (c4 == -1)
@@ -139,7 +141,7 @@ class base64 : public noncopyable {
 
       dest[dest_len++] = static_cast</*boost::*/uint8_t>((((c3 & 0x03) << 6)| c4) & 0xff);
     }
-    return boost::make_tuple(dest, dest_len);
+    return std::make_tuple(dest, dest_len);
   }
 
   template <typename T>
